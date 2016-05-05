@@ -63,7 +63,38 @@ var restRouter = function(opts) {
   return ret;
 }
 
-var LIST_FIELDS = ['id', 'name', 'pos'];
+// List entity definition maps field names to validation functions
+var LIST_ENTITY = {
+  name: function(name) {
+    return name && _.isString(name) && name.length;
+  },
+  pos: _.isNumber
+};
+
+function isValid(entity, obj) {
+  if (! _.isUndefined(obj.id) && ! _.isNumber(obj.id)) {
+    return false;
+  }
+
+  return _.all(_.pairs(entity).map(function(item) {
+    var name = item[0], validate = item[1];
+    return validate(obj[name]);
+  }));
+}
+
+function getFields(entity, obj) {
+  return _.pick(obj, function(v, k) {
+    return _.has(entity, k);
+  });
+}
+
+function isValidList(obj) {
+  return isValid(LIST_ENTITY, obj);
+}
+
+function getListFields(obj) {
+  return getFields(LIST_ENTITY, obj);
+}
 
 // LISTS
 app.use('/api/lists', restRouter({
@@ -84,33 +115,25 @@ app.use('/api/lists', restRouter({
     }
   },
   create: function(req, resp, next) {
-    var props = _.pick(req.body, function(k, v) {
-      return _.contains(LIST_FIELDS, v);
-    });
-
-    if (! props.name || !props.name.length) {
-      resp.status(400).send('Missing list property: name');
+    var fields = getListFields(req.body);
+    if (! isValidList(fields)) {
+      resp.status(400).end();
     } else {
-      console.log('Create list', props);
-      resp.json(storage.upsert('list', props));
+      console.log('Create list', fields);
+      resp.json(storage.upsert('list', fields));
     }
   },
   update: function(req, resp, next) {
-    var props = _.pick(req.body, function(k, v) {
-      return _.contains(LIST_FIELDS, v);
-    });
-    if (! props.name || !props.name.length) {
-      resp.status(400).send('Missing list property: name');
+    var fields = getListFields(req.body);
+    if (! isValidList(fields)) {
+      resp.status(400).end();
     } else {
-      props.id = parseInt(req.params.id);
-      console.log('Update list', props);
-      resp.json(storage.upsert('list', props));
+      fields.id = parseInt(req.params.id);
+      console.log('Update list', fields);
+      resp.json(storage.upsert('list', fields));
     }
   }
 }));
-
-// CARDS
-app.use('/api/lists', restRouter());
 
 // Start
 var port = process.env.PORT || 3000;
