@@ -20,7 +20,9 @@ var init = _.once(function() {
   // Create file if it doesn't exist
   if (! fs.existsSync(STORE_FILE)) {
     console.log('Creating new storage file.');
-    fs.mkdirSync('.tmp');
+    if (! fs.existsSync('.tmp')) {
+      fs.mkdirSync('.tmp');
+    }
     fs.writeFileSync(STORE_FILE, JSON.stringify({}));
   }
 
