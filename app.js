@@ -1,8 +1,12 @@
 'use strict';
 
+// NPM dependencies
 var express = require('express');
 var handlebars = require('express-handlebars');
 var bodyParser = require('body-parser');
+
+// Local dependencies
+var storage = require('./storage');
 
 var app = express();
 // Default Layout and locate layouts and partials
@@ -62,6 +66,9 @@ var restRouter = function(opts) {
 app.use('/api/lists', restRouter({
   getOne: function(req, resp, next) {
     resp.json({ message: 'hooray! welcome to our api!' });
+  },
+  getOne: function(req, resp, next) {
+    resp.json({ message: 'hooray! welcome to our api!' });
   }
 }));
 
@@ -72,3 +79,5 @@ app.use('/api/lists', restRouter());
 var port = process.env.PORT || 3000;
 app.listen(port);
 console.log('Express started on port ' + port);
+
+storage.init();
