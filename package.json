@@ -2,7 +2,8 @@
   "name": "horizonello",
   "version": "0.0.1",
   "dependencies": {
-    "express": "4.13.4"
+    "express": "4.13.4",
+    "express-handlebars": "3.0.0"
   },
   "devDependencies": {},
   "scripts": {
