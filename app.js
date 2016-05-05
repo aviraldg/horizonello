@@ -1,10 +1,10 @@
 'use strict';
 
 var express = require('express');
-var app = express();
-var port = 3000;
 var handlebars = require('express-handlebars');
+var bodyParser = require('body-parser');
 
+var app = express();
 // Default Layout and locate layouts and partials
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
@@ -19,12 +19,56 @@ app.use(express.static(__dirname + '/static'));
 // Set Handlebars
 app.set('view engine', 'handlebars');
 
+// Add POST request parsing for message bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // Routes
 // Index Page
 app.get('/', function(request, response, next) {
   response.render('index');
 });
 
+
+// A set of routes for a RESTful entity
+var restRouter = function(opts) {
+  opts = opts || {};
+
+  var ret = express.Router();
+  // Get all
+  if (opts.getAll) {
+    ret.get('/', opts.getAll);
+  }
+  // Get one
+  if (opts.getOne) {
+    ret.get('/:id', opts.getOne);
+  }
+  // Create
+  if (opts.create) {
+    ret.post('/', opts.create);
+  }
+  // Create
+  if (opts.update) {
+    ret.post('/:id', opts.update);
+  }
+  // Delete
+  if (opts.delete) {
+    ret.delete('/:id', opts.delete);
+  }
+  return ret;
+}
+
+// LISTS
+app.use('/api/lists', restRouter({
+  getOne: function(req, resp, next) {
+    resp.json({ message: 'hooray! welcome to our api!' });
+  }
+}));
+
+// CARDS
+app.use('/api/lists', restRouter());
+
 // Start
-app.listen(process.env.PORT || port);
+var port = process.env.PORT || 3000;
+app.listen(port);
 console.log('Express started on port ' + port);
