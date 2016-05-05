@@ -4,6 +4,7 @@
 var express = require('express');
 var handlebars = require('express-handlebars');
 var bodyParser = require('body-parser');
+var _ = require('underscore');
 
 // Local dependencies
 var storage = require('./storage');
@@ -62,13 +63,49 @@ var restRouter = function(opts) {
   return ret;
 }
 
+var LIST_FIELDS = ['id', 'name', 'pos'];
+
 // LISTS
 app.use('/api/lists', restRouter({
-  getOne: function(req, resp, next) {
-    resp.json({ message: 'hooray! welcome to our api!' });
+  getAll: function(req, resp, next) {
+    var result = storage.getAll('list');
+    if (result) {
+      resp.json({ rows: result });
+    } else {
+      resp.status(404).end();
+    }
   },
   getOne: function(req, resp, next) {
-    resp.json({ message: 'hooray! welcome to our api!' });
+    var result = storage.getOne('list', parseInt(req.params.id));
+    if (result) {
+      resp.json(result);
+    } else {
+      resp.status(404).end();
+    }
+  },
+  create: function(req, resp, next) {
+    var props = _.pick(req.body, function(k, v) {
+      return _.contains(LIST_FIELDS, v);
+    });
+
+    if (! props.name || !props.name.length) {
+      resp.status(400).send('Missing list property: name');
+    } else {
+      console.log('Create list', props);
+      resp.json(storage.upsert('list', props));
+    }
+  },
+  update: function(req, resp, next) {
+    var props = _.pick(req.body, function(k, v) {
+      return _.contains(LIST_FIELDS, v);
+    });
+    if (! props.name || !props.name.length) {
+      resp.status(400).send('Missing list property: name');
+    } else {
+      props.id = parseInt(req.params.id);
+      console.log('Update list', props);
+      resp.json(storage.upsert('list', props));
+    }
   }
 }));
 

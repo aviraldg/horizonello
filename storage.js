@@ -48,8 +48,16 @@ function getAll(kind) {
 // Get many entities of the same kind.
 // ex. getMany('list', [1, 2]) -> [{id: 1}, {id: 2}]
 function getMany(kind, ids) {
-  if (! store[kind]) {
+  if (! ids) {
     return null;
+  }
+
+  if (! _.all(ids, _.isNumber)) {
+    throw "Ids must be a numbers";
+  }
+
+  if (! store[kind]) {
+    return [];
   }
 
   return _.filter(store[kind].rows, function(row) {
@@ -59,6 +67,10 @@ function getMany(kind, ids) {
 
 // Get one entity with given id
 function getOne(kind, id) {
+  if (! _.isNumber(id)) {
+    throw "Id must be a number: " + id;
+  }
+
   var ret = getMany(kind, [id]);
   if (ret.length > 1) {
     console.warn('Found multiple entities with same id', ret);
@@ -70,7 +82,12 @@ function getOne(kind, id) {
 }
 
 function upsert(kind, row) {
+  if (row.id && ! _.isNumber(row.id)) {
+    throw 'Id must be number';
+  }
+
   var entity = store[kind];
+
 
   if (! entity) {
     console.log('Creating new kind:', kind);
@@ -80,8 +97,9 @@ function upsert(kind, row) {
   var found = false;
 
   if (row.id) {
-    entity.rows.map(function(innerRow) {
+    entity.rows = entity.rows.map(function(innerRow) {
       if (innerRow.id === row.id) {
+        found = true;
         return row;
       }
       return innerRow;
@@ -90,14 +108,22 @@ function upsert(kind, row) {
 
   if (! found) {
     if (! row.id) {
-      row.id = entity.nextId++;
+      do {
+        row.id = entity.nextId++;
+      } while (_.any(entity.rows, function(innerRow) {
+        return innerRow.id === row.id;
+      }))
     }
     entity.rows.push(row);
   }
 
   writeData();
+  return row;
 }
 
 module.exports = {}
 module.exports.init = init;
 module.exports.getAll = getAll;
+module.exports.getOne = getOne;
+module.exports.getMany = getMany;
+module.exports.upsert = upsert;
