@@ -23,39 +23,43 @@ Don't try to do all of these tasks at once. Tackle them one at a time and move
 on once you've completed task. It's OK if you don't complete all tasks, we give
 partial credit :white_check_mark:.
 
+Your solutions **should store and read data from the server**. API endpoints
+listed below may be helpful for this. You can render your interface on the
+client or on the server.
+
  1. View lists, create new list **\[frontend\]**
     <br> Allow users to view and
     create lists. Lists should be displayed as vertical columns in a
     Trello-like manner.
-    <br>Use: `GET /api/lists` and `POST /api/lists`.
+    <br>See: `GET /api/lists` and `POST /api/lists`.
  1. Fix `POST /api/list/:id` endpoint **\[backend\]**
     <br> There's a bug :beetle: in the API endpoint for updating `List`s in
     [`app.js`](app.js). Find it and fix it.
  1. Create new card in a list **\[frontend\]**
     <br> Allow users to create new cards in existing lists.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Rename list **\[frontend\]**
     <br>Allow users to rename existing lists.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Change card contents **\[frontend\]**
     <br>Allow users to change the contents of cards.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Delete card **\[frontend\]**
     <br>Allow users to delete single cards.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Move cards **\[frontend\]**
     <br>Allow users to move cards within and between lists.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Reorder lists **\[frontend\]**
     <br>Allow users to reorder whole lists. You can use drag-and-drop or buttons.
-    <br>Use: `POST /api/lists/:id`.
+    <br>See: `POST /api/lists/:id`.
  1. Implement `DELETE /api/lists/:id` **\[backend\]**
     <br>Create a new Express endpoint that takes a `DELETE` request and an `id`
     and deletes a single list.  This endpoint should return `404 Bad Request`
     if list with `id` can't be found. 
  1. Delete list **\[frontend\]**
     <br>Allow users to delete whole lists.
-    <br>Use: `DELETE /api/lists/:id`.
+    <br>See: `DELETE /api/lists/:id`.
 
 Legend:
 
@@ -87,6 +91,9 @@ You work will be evaluated based on the following criteria (in decreasing order 
  * Completeness: Every feature is implemented.
  * Visual styling and ease of use (least important): The user interface is easy
    to use and looks good.
+
+:exclamation: **Important:** Your app **MUST** start successfully with `npm
+start` command. We will be using this command to start and test your app. :exclamation:
 
 Feel free to add any dependencies or 3rd party libraries to this project. You
 can also modify any files in this project.
@@ -130,21 +137,21 @@ Example valid `List`:
 
 ## Project Layout
 
-We've set up [Express][express] with [`express-handlebars`][express-handlebars]
-for templates for you.
+On the backend, we've set up [Express][express] with [`express-handlebars`][express-handlebars]
+for templates for you.  The index page lives in [`views/index.handlebars`](views/index.handlebars).
+The boilerplate and header footer code lives in [`views/layouts/main.handlebars`](views/layouts/main.handlebars).
 
-The index page lives in [`views/index.handlebars`](views/index.handlebars). The
-boilerplate and header footer code lives in [`views/layouts/main.handlebars`](views/layouts/main.handlebars).
+The main Express JavaScript file is [`app.js`](app.js). You can find the route definitions here.
+[`storage.js`](storage.js) contains code for reading and storing persisted data.
 
-Static assets live in the `static/` folder.
-CSS styles live in that's ready for editing in [`static/css/styles.css`](static/css/styles.css).
-The client-side 
+Client-side assets are in the `static/` folder.  CSS styles are in
+[`static/css/styles.css`](static/css/styles.css).  Client-side JavaScript is in
+[`static/js/script.js`](static/js/script.js); you will find example code for
+interacting with API endpoints here. `styles.css` and `script.js` are included
+in every page.
 
-The main Express script file is [`app.js`](app.js). You can find the route definitions here.
-
-[`storage.js`](storage.js) contains persistence logic.
-
-XXX frontend
+Your solution should use Node.js and Express but otherwise feel free to change
+anything else in this project.
 
 ## API Endpoints
 
