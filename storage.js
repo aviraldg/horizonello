@@ -1,18 +1,22 @@
-// Manage persistence using a JSON file.
+'use strict';
+// Storage layer of our backend service. Uses a JSON file to store records.
 
-// Storage file layout
+// NPM dependencies
+var fs = require('fs');
+var _ = require('underscore');
+
+// Manage persistence using a JSON file.
+// Storage file layout:
 // {
 //    '[kind]': {
 //      'nextId': 1,
 //      'rows': [{'id': 0, '[field1]': [field1 value]}]
 //    }
 // }
-var fs = require('fs');
-var _ = require('underscore');
-
 var STORE_FILE = '.tmp/storage.json';
 
 var initialized = false;
+// Current application store state is stored here
 var store = null;
 
 var init = _.once(function() {
@@ -39,7 +43,7 @@ function writeData() {
 }
 
 // Get all entities of a particular kind
-// ex. getAll('list') -> []
+// ex. getAll('list') -> [{id: 1}, {id: 2},. . .]
 function getAll(kind) {
   if (! store[kind]) {
     return [];
@@ -47,7 +51,7 @@ function getAll(kind) {
   return store[kind].rows;
 }
 
-// Get many entities of the same kind.
+// Get many rows of the same kind.
 // ex. getMany('list', [1, 2]) -> [{id: 1}, {id: 2}]
 function getMany(kind, ids) {
   if (! ids) {
@@ -67,7 +71,7 @@ function getMany(kind, ids) {
   });
 }
 
-// Get one entity with given id
+// Get one row with given id. If no row is found, return null.
 function getOne(kind, id) {
   if (! _.isNumber(id)) {
     throw new Error("Id must be a number: " + id);
@@ -83,6 +87,11 @@ function getOne(kind, id) {
   return null;
 }
 
+// Update or create a row with given entity 'kind'.
+// * If 'row' has an 'id' and there's another row 'oldRow' with the same id,
+//   'oldRow' is replaced with 'row'.
+// * If 'row' has no 'id' or if there's no other row with the same id, a row is
+//   inserted into our data storage layer.
 function upsert(kind, row) {
   if (row.id && ! _.isNumber(row.id)) {
     throw new Error('Id must be number');
@@ -121,6 +130,11 @@ function upsert(kind, row) {
 
   writeData();
   return row;
+}
+
+// XXX
+function delete(kind, id) {
+  // XXX
 }
 
 module.exports = {}

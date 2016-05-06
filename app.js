@@ -1,4 +1,5 @@
 'use strict';
+// Backend for our Trello clone.
 
 // NPM dependencies
 var express = require('express');
