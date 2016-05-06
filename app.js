@@ -25,7 +25,7 @@ app.use(express.static(__dirname + '/static'));
 app.set('view engine', 'handlebars');
 
 // Add POST request parsing for message bodies
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Index Page
 app.get('/', function(request, response, next) {
