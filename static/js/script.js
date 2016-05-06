@@ -1,4 +1,6 @@
+'use strict';
 // Your client side JavaScript code goes here.
+// This file is included in every page.
 
 // Example code for creating a list on the server
 function createList(name, pos, cards) {
