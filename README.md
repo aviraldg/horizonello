@@ -4,12 +4,13 @@ Your mission, should you choose to accept it, is to build a very simple [Trello]
 
 Trello is a very simple task management tool that has two basic components: lists and cards.
 
- * Debug
- * Build client
+ * Build client create
+ * Debug update
 
-## Project Structure
 
-We use [Express][XXX] on the server side. We've set up `express-handlebars` for templating for you.
+## Project Layout
+
+We use [Express][express] on the server side. We've set up [`express-handlebars`][express-handlebars] for templating for you.
 
 The index page lives in [`views/index.handlebars`](views/index.handlebars). The
 boilerplate and header footer code lives in [`views/layouts/main.handlebars`](views/layouts/main.handlebars).
@@ -75,3 +76,5 @@ There's only one entity type in this application: `List`s.
 
 ## Client
 
+[express]: XXX
+[express-handlebars]: XXX
