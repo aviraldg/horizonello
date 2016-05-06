@@ -132,14 +132,35 @@ function upsert(kind, row) {
   return row;
 }
 
-// XXX
-function delete(kind, id) {
-  // XXX
+// Delete row with given id of given entity kind.
+// Returns true if row with id is found, false otherwise.
+function del(kind, id) {
+  var entity = store[kind];
+  if (! entity) {
+    return false;
+  }
+
+  var found = false;
+  entity.rows = entity.rows.filter(function(row) {
+    if (id === row.id) {
+      found = true;
+      return false; // return false delete this record
+    }
+    return true;
+  });
+
+  if (found) {
+    writeData();
+  }
+
+  return found;
 }
 
+init();
+
 module.exports = {}
-module.exports.init = init;
 module.exports.getAll = getAll;
 module.exports.getOne = getOne;
 module.exports.getMany = getMany;
 module.exports.upsert = upsert;
+module.exports.del = del;

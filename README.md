@@ -57,6 +57,7 @@ client or on the server.
     <br>Create a new Express endpoint that takes a `DELETE` request and an `id`
     and deletes a single list.  This endpoint should return `404 Bad Request`
     if list with `id` can't be found. 
+    <br>See: function `storage.del(kind, id)` in `storage.js`
  1. Delete list **\[frontend\]**
     <br>Allow users to delete whole lists.
     <br>See: `DELETE /api/lists/:id`.

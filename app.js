@@ -123,5 +123,3 @@ listApiRouter.post('/:id', function(req, resp, next) {
 var port = process.env.PORT || 3000;
 app.listen(port);
 console.log('Express started on port ' + port);
-
-storage.init();
