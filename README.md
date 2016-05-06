@@ -104,8 +104,9 @@ You work will be evaluated based on the following criteria (in decreasing order 
  * Visual styling and ease of use (least important): The user interface is easy
    to use and looks good.
 
-:exclamation: **Important:** Your app **MUST** start successfully with `npm
-start` command. We will be using this command to start and test your app. :exclamation:
+:exclamation: **Important:** Your app **MUST** start successfully with
+`npm install && npm start` command.
+We will be using this command to start and test your app. :exclamation:
 
 Feel free to add any dependencies or 3rd party libraries to this project. You
 can also modify any files in this project.
@@ -113,7 +114,7 @@ can also modify any files in this project.
 ## Running project
 
 To run the project, clone this repository and open it up in your terminal and
-run `npm start` then visit [localhost:3000](http://localhost:3000).
+run `npm install && npm start` then visit [localhost:3000](http://localhost:3000).
 
 To delete `List` data run `npm run clean`.
 
