@@ -80,6 +80,13 @@ You work will be evaluated based on the following criteria (in decreasing order 
  * Visual styling and ease of use (least important): The user interface is easy
    to use and looks good.
 
+## Running project
+
+To run the project, clone this repository and open it up in your terminal and
+run `npm start` then visit [localhost:3000](http://localhost:3000).
+
+To delete `List` data run `npm run clean`.
+
 ## Schema
 
 We represent our Trello-like board using a single entity: `List`s. Our board
@@ -110,18 +117,10 @@ Example valid `List`:
 }
 ```
 
-## Backend
-
-We provide a simple backend in [Express][express] for you.
-
-
- * Build client create
- * Debug update
-
-
 ## Project Layout
 
-We use [Express][express] on the server side. We've set up [`express-handlebars`][express-handlebars] for templating for you.
+We've set up [Express][express] with [`express-handlebars`][express-handlebars]
+for templates for you.
 
 The index page lives in [`views/index.handlebars`](views/index.handlebars). The
 boilerplate and header footer code lives in [`views/layouts/main.handlebars`](views/layouts/main.handlebars).
