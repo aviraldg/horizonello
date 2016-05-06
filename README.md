@@ -1,4 +1,4 @@
-# Web Stack Exercise
+# Horizonello: a Horizons Trello Clone
 
 ## Table of contents
 
@@ -64,6 +64,8 @@ Legend:
 
 ## Submitting
 
+We recommend that you **don't** publicly fork this repository.
+
  1. Make sure all your changes are committed to `git`.
     ```bash
     $ git status
@@ -85,6 +87,9 @@ You work will be evaluated based on the following criteria (in decreasing order 
  * Completeness: Every feature is implemented.
  * Visual styling and ease of use (least important): The user interface is easy
    to use and looks good.
+
+Feel free to add any dependencies or 3rd party libraries to this project. You
+can also modify any files in this project.
 
 ## Running project
 
@@ -138,24 +143,34 @@ The client-side
 The main Express script file is [`app.js`](app.js). You can find the route definitions here.
 
 [`storage.js`](storage.js) contains persistence logic.
-app.js
 
-storage.js
+XXX frontend
 
-### API Endpoints
+## API Endpoints
 
-#### Get all lists
+XXX
+
+### Get all lists
  * Method: `GET`
  * Path: `/api/list`
  * Response codes and contents
      * 200: Success. Response will contain an object with a single key `rows`, all `list` objects are returned under this.
-       ```
+       ```json
        {
          "rows": [{"name": "List name", "pos": 1, "cards": ["Card 1"]}]
        }
        ```
+### Get one list
+ * Method: `GET`
+ * Path: `/api/list/:id`
+ * Response codes and contents
+     * 200: Success. Response will contain list.
+       ```json
+       { "name": "List name", "pos": 1, "cards": ["Card 1"] }
+       ```
+     * 404: Not found. If no `list` with id is found.
 
-#### Create new list
+### Create new list
 
  * Method: `POST`
  * Path: `/api/list`
@@ -167,18 +182,21 @@ storage.js
      * 200: Success. Response will be the `list` object that was just created.
      * 400: Invalid request. Missing required fields or bad field values. Check the logs.
 
-#### Update existing list
+### Update existing list
+
+**Note:** There's a bug :beetle: in this endpoint. One of your tasks is to find it and fix it.
 
  * Method: `POST`
- * Path: `/api/list`
+ * Path: `/api/list/:id`
+     * id (required): id of the list to update
  * Request parameters: All request parameters are expected to be passed in through the request body (i.e. not the URL).
-     * name (required):
-     * pos (required):
+     * name (required): name of the list
+     * pos  (required): number representing the position of this list on the screen. `pos` counts up left-to-right.
+     * cards (optional): array of strings representing cards under the current list.
  * Responses:
      * 200: Success. Response will be the `list` object that was just created.
      * 400: Invalid request. Missing required fields or bad field values. Check the logs.
 
-## Client
 
 [express]: http://expressjs.com/en/api.html
 [express-handlebars]: https://github.com/ericf/express-handlebars
