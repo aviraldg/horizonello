@@ -113,7 +113,6 @@ listApiRouter.post('/:id', function(req, resp, next) {
   if (! isValid(LIST_FIELDS, fields)) {
     resp.status(400).end();
   } else {
-    fields.id = parseInt(req.params.id);
     console.log('Update list', fields);
     resp.json(storage.upsert('list', fields));
   }

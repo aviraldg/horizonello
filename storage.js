@@ -55,7 +55,7 @@ function getMany(kind, ids) {
   }
 
   if (! _.all(ids, _.isNumber)) {
-    throw "Ids must be a numbers";
+    throw new Error("Ids must be a numbers");
   }
 
   if (! store[kind]) {
@@ -70,7 +70,7 @@ function getMany(kind, ids) {
 // Get one entity with given id
 function getOne(kind, id) {
   if (! _.isNumber(id)) {
-    throw "Id must be a number: " + id;
+    throw new Error("Id must be a number: " + id);
   }
 
   var ret = getMany(kind, [id]);
@@ -85,7 +85,7 @@ function getOne(kind, id) {
 
 function upsert(kind, row) {
   if (row.id && ! _.isNumber(row.id)) {
-    throw 'Id must be number';
+    throw new Error('Id must be number');
   }
 
   var entity = store[kind];
