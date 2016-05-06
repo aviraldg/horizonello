@@ -7,8 +7,11 @@
     "express-handlebars": "3.0.0",
     "underscore": "1.8.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "rimraf": "2.5.2"
+  },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "clean": "rimraf .tmp/"
   }
 }
