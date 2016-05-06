@@ -83,15 +83,19 @@ Legend:
 We recommend that you **don't** publicly fork this repository.
 
  1. Make sure all your changes are committed to `git`.
+
     ```bash
     $ git status
     On branch master
     nothing to commit, working directory clean
     ```
+
  1. Create a zip archive of your project.
+
     ```bash
     $ git archive master --format zip -o "horizonello-[YOUR NAME].zip"
     ```
+
  1. Email us `horizonello-[YOUR NAME].zip`.
 
 ## Evaluation
@@ -180,19 +184,23 @@ request serialization (i.e. form-encoded) or JSON.
  * Path: `/api/list`
  * Response codes and contents
      * 200: Success. Response will contain an object with a single key `rows`, all `list` objects are returned under this.
+
        ```json
        {
          "rows": [{"name": "List name", "pos": 1, "cards": ["Card 1"]}]
        }
        ```
+
 ### Get one list
  * Method: `GET`
  * Path: `/api/list/:id`
  * Response codes and contents
      * 200: Success. Response will contain list.
+
        ```json
        { "name": "List name", "pos": 1, "cards": ["Card 1"] }
        ```
+
      * 404: Not found. If no `list` with id is found.
 
 ### Create new list
