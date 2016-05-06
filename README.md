@@ -38,6 +38,9 @@ Your solutions **should store and read data from the server**. API endpoints
 listed below may be helpful for this. You can render your interface on the
 client or on the server.
 
+The app currently has no styling; it's up to you to add style and interactivity
+to it as you go through these tasks. Be creative!
+
  1. View lists, create new list **\[frontend\]**
     <br> Allow users to view and
     create lists. Lists should be displayed as vertical columns in a
