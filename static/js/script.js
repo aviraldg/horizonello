@@ -1,4 +1,5 @@
-// Your code here!
+// Your client side JavaScript code goes here.
+
 function createList(name, pos, cards) {
   return $.ajax('/api/lists', {
     type: 'POST',
@@ -17,6 +18,7 @@ function loadLists() {
 loadLists()
   .then(function(data) {
     console.log('Lists', data.rows);
+    // If no lists are found, create sample list
     if (! data.rows.length) {
       console.log('No lists found, creating one.');
       createList('Hello', 0, ['Card 1', 'Card 2'])
