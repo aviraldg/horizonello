@@ -118,9 +118,28 @@ can also modify any files in this project.
 ## Running project
 
 To run the project, clone this repository and open it up in your terminal and
-run `npm install && npm start` then visit [localhost:3000](http://localhost:3000).
+run:
 
-To delete `List` data run `npm run clean`.
+```bash
+npm install && npm start
+```
+
+You should see:
+
+```
+BLAH BLAH BLAH
+
+> horizonello@0.0.1 start /Users/user/horizonello
+> node app.js
+
+Initializing storage...
+Done initializing storage. Read 0 entities.
+Express started on port 3000
+```
+
+You can now visit [localhost:3000](http://localhost:3000) to see your app.
+
+To delete all `List` data run: `npm run clean`
 
 ## Schema
 
