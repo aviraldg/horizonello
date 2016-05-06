@@ -10,7 +10,8 @@ var _ = require('underscore');
 var storage = require('./storage');
 
 var app = express();
-// Default Layout and locate layouts and partials
+
+// Locate layouts and partials
 app.engine('handlebars', handlebars({
   defaultLayout: 'main',
   layoutsDir: 'views/layouts/',
@@ -26,6 +27,7 @@ app.set('view engine', 'handlebars');
 
 // Add POST request parsing for message bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
 
 // Index Page
 app.get('/', function(request, response, next) {
