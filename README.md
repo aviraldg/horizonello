@@ -1,5 +1,11 @@
 # Web Stack Exercise
 
+## Table of contents
+
+XXX
+
+## Intro
+
 Your mission, should you choose to accept it, is to build a simplified
 [Trello](http://trello.com) clone.
 
