@@ -34,7 +34,6 @@ app.get('/', function(request, response, next) {
   response.render('index');
 });
 
-
 // A set of routes for a RESTful entity
 var restRouter = function(opts) {
   opts = opts || {};
@@ -63,22 +62,20 @@ var restRouter = function(opts) {
   return ret;
 }
 
-// List entity definition maps field names to validation functions
-var LIST_ENTITY = {
-  name: function(name) {
-    return name && _.isString(name) && name.length;
-  },
-  pos: _.isNumber
-};
-
+// Entity functions
 function isValid(entity, obj) {
-  if (! _.isUndefined(obj.id) && ! _.isNumber(obj.id)) {
+  if (! _.isUndefined(obj.id) && ! _.isFinite(obj.id)) {
+    console.log('Id validation failed', obj.id);
     return false;
   }
 
   return _.all(_.pairs(entity).map(function(item) {
     var name = item[0], validate = item[1];
-    return validate(obj[name]);
+    var ret = validate(obj[name]);
+    if (! ret) {
+      console.log('Validation failed for field %s, value: %s', name, obj[name]);
+    }
+    return ret;
   }));
 }
 
@@ -87,16 +84,18 @@ function getFields(entity, obj) {
     return _.has(entity, k);
   });
 }
+// REST Endpoint: /api/list
+// CRUD actions for list
+var LIST_ENTITY = {
+  name: function(name) {
+    return name && _.isString(name) && name.length;
+  },
+  pos: _.isNumber,
+  cards: function(cards) {
+    return ! cards || (_.isArray(cards) && _.all(cards, _.isString));
+  }
+};
 
-function isValidList(obj) {
-  return isValid(LIST_ENTITY, obj);
-}
-
-function getListFields(obj) {
-  return getFields(LIST_ENTITY, obj);
-}
-
-// LISTS
 app.use('/api/lists', restRouter({
   getAll: function(req, resp, next) {
     var result = storage.getAll('list');
@@ -115,8 +114,9 @@ app.use('/api/lists', restRouter({
     }
   },
   create: function(req, resp, next) {
-    var fields = getListFields(req.body);
-    if (! isValidList(fields)) {
+    var fields = getFields(LIST_ENTITY, req.body);
+    fields.pos = parseInt(fields.pos);
+    if (! isValid(LIST_ENTITY, fields)) {
       resp.status(400).end();
     } else {
       console.log('Create list', fields);
@@ -124,8 +124,9 @@ app.use('/api/lists', restRouter({
     }
   },
   update: function(req, resp, next) {
-    var fields = getListFields(req.body);
-    if (! isValidList(fields)) {
+    var fields = getFields(LIST_ENTITY, req.body);
+    fields.pos = parseInt(fields.pos);
+    if (! isValid(LIST_ENTITY, fields)) {
       resp.status(400).end();
     } else {
       fields.id = parseInt(req.params.id);
