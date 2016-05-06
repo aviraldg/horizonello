@@ -25,42 +25,12 @@ app.use(express.static(__dirname + '/static'));
 app.set('view engine', 'handlebars');
 
 // Add POST request parsing for message bodies
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Routes
 // Index Page
 app.get('/', function(request, response, next) {
   response.render('index');
 });
-
-// A set of routes for a RESTful entity
-var restRouter = function(opts) {
-  opts = opts || {};
-
-  var ret = express.Router();
-  // Get all
-  if (opts.getAll) {
-    ret.get('/', opts.getAll);
-  }
-  // Get one
-  if (opts.getOne) {
-    ret.get('/:id', opts.getOne);
-  }
-  // Create
-  if (opts.create) {
-    ret.post('/', opts.create);
-  }
-  // Create
-  if (opts.update) {
-    ret.post('/:id', opts.update);
-  }
-  // Delete
-  if (opts.delete) {
-    ret.delete('/:id', opts.delete);
-  }
-  return ret;
-}
 
 // Entity functions
 function isValid(entity, obj) {
@@ -84,9 +54,15 @@ function getFields(entity, obj) {
     return _.has(entity, k);
   });
 }
+
 // REST Endpoint: /api/list
 // CRUD actions for list
-var LIST_ENTITY = {
+var listApiRouter = express.Router();
+app.use('/api/lists', listApiRouter);
+
+// LIST_FIELDS: names of valid entity fields mapped to functions for validating
+// contents of fields.
+var LIST_FIELDS = {
   name: function(name) {
     return name && _.isString(name) && name.length;
   },
@@ -96,45 +72,49 @@ var LIST_ENTITY = {
   }
 };
 
-app.use('/api/lists', restRouter({
-  getAll: function(req, resp, next) {
-    var result = storage.getAll('list');
-    if (result) {
-      resp.json({ rows: result });
-    } else {
-      resp.status(404).end();
-    }
-  },
-  getOne: function(req, resp, next) {
+// Get all
+listApiRouter.get('/', function(req, resp, next) {
+  var result = storage.getAll('list');
+  if (result) {
+    resp.json({ rows: result });
+  } else {
+    resp.status(404).end();
+  }
+});
+
+// Get one
+listApiRouter.get('/:id', function(req, resp, next) {
     var result = storage.getOne('list', parseInt(req.params.id));
     if (result) {
       resp.json(result);
     } else {
       resp.status(404).end();
     }
-  },
-  create: function(req, resp, next) {
-    var fields = getFields(LIST_ENTITY, req.body);
-    fields.pos = parseInt(fields.pos);
-    if (! isValid(LIST_ENTITY, fields)) {
-      resp.status(400).end();
-    } else {
-      console.log('Create list', fields);
-      resp.json(storage.upsert('list', fields));
-    }
-  },
-  update: function(req, resp, next) {
-    var fields = getFields(LIST_ENTITY, req.body);
-    fields.pos = parseInt(fields.pos);
-    if (! isValid(LIST_ENTITY, fields)) {
-      resp.status(400).end();
-    } else {
-      fields.id = parseInt(req.params.id);
-      console.log('Update list', fields);
-      resp.json(storage.upsert('list', fields));
-    }
+});
+
+// Create
+listApiRouter.post('/', function(req, resp, next) {
+  var fields = getFields(LIST_FIELDS, req.body);
+  fields.pos = parseInt(fields.pos);
+  if (! isValid(LIST_FIELDS, fields)) {
+    resp.status(400).end();
+  } else {
+    console.log('Create list', fields);
+    resp.json(storage.upsert('list', fields));
   }
-}));
+});
+
+listApiRouter.post('/:id', function(req, resp, next) {
+  var fields = getFields(LIST_FIELDS, req.body);
+  fields.pos = parseInt(fields.pos);
+  if (! isValid(LIST_FIELDS, fields)) {
+    resp.status(400).end();
+  } else {
+    fields.id = parseInt(req.params.id);
+    console.log('Update list', fields);
+    resp.json(storage.upsert('list', fields));
+  }
+});
 
 // Start
 var port = process.env.PORT || 3000;
