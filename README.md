@@ -10,7 +10,7 @@ Your mission, should you choose to accept it, is to build a simplified
 [Trello](http://trello.com) clone.
 
 Trello is a simple task management tool with three components: boards, lists and cards.
-Each board has multiple list, each list has multiple cards, and cards have names. 
+Each board has multiple lists, each list has multiple cards, and cards have names. 
 [Here's what Trello looks like.](https://trello.com/b/VD0XOCe7/example-board)
 
 ![Trello example board](static/img/trello-board.png)
