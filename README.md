@@ -2,7 +2,18 @@
 
 ## Table of contents
 
-XXX
+1. [Intro](#intro)
+1. [Your tasks](#your-tasks)
+1. [Submitting](#submitting)
+1. [Evaluation](#evaluation)
+1. [Running project](#running-project)
+1. [Schema](#schema)
+1. [Project Layout](#project-layout)
+1. [API Endpoints](#api-endpoints)
+  1. [Get all lists](#get-all-lists)
+  1. [Get one list](#get-one-list)
+  1. [Create new list](#create-new-list)
+  1. [Update existing list](#update-existing-list)
 
 ## Intro
 
@@ -156,7 +167,12 @@ anything else in this project.
 
 ## API Endpoints
 
-XXX
+You can use these endpoints to read and update data from the server in the
+browser.
+
+For endpoints that take `POST` requests request parameters must be passed
+through the request body (i.e. not the URL). You can use regular jQuery AJAX
+request serialization (i.e. form-encoded) or JSON.
 
 ### Get all lists
  * Method: `GET`
