@@ -72,7 +72,7 @@ var LIST_FIELDS = {
   }
 };
 
-// Get all
+// GET /api/lists Get all lists
 listApiRouter.get('/', function(req, resp, next) {
   var result = storage.getAll('list');
   if (result) {
@@ -82,7 +82,7 @@ listApiRouter.get('/', function(req, resp, next) {
   }
 });
 
-// Get one
+// GET /api/lists/:id Get one list
 listApiRouter.get('/:id', function(req, resp, next) {
     var result = storage.getOne('list', parseInt(req.params.id));
     if (result) {
@@ -92,7 +92,7 @@ listApiRouter.get('/:id', function(req, resp, next) {
     }
 });
 
-// Create
+// POST /api/lists create new list
 listApiRouter.post('/', function(req, resp, next) {
   var fields = getFields(LIST_FIELDS, req.body);
   fields.pos = parseInt(fields.pos);
@@ -104,6 +104,7 @@ listApiRouter.post('/', function(req, resp, next) {
   }
 });
 
+// POST /api/lists/:id Update existsing list
 listApiRouter.post('/:id', function(req, resp, next) {
   var fields = getFields(LIST_FIELDS, req.body);
   fields.pos = parseInt(fields.pos);
