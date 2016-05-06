@@ -1,4 +1,4 @@
-# Introduction
+# Web Stack Exercise
 
 Your mission, should you choose to accept it, is to build a simplified
 [Trello](http://trello.com) clone.
@@ -17,16 +17,39 @@ Don't try to do all of these tasks at once. Tackle them one at a time and move
 on once you've completed task. It's OK if you don't complete all tasks, we give
 partial credit :white_check_mark:.
 
- 1. Create new list **\[frontend\]**: Build a way to create a new 
- 1. Create new card in a list **\[frontend\]**:
- 1. Fix `POST /api/list/:id` endpoint **\[backend\]**: 
- 1. Rename list **\[frontend\]**:
- 1. Rename card **\[frontend\]**:
- 1. Delete card **\[frontend\]**:
- 1. Move card between lists **\[frontend\]**:
- 1. Reorder lists **\[frontend\]**:
- 1. Implement `DELETE /api/lists/:id` **\[backend\]**:
- 1. Delete list **\[frontend\]**:
+ 1. View lists, create new list **\[frontend\]**
+    <br> Allow users to view and
+    create lists. Lists should be displayed as vertical columns in a
+    Trello-like manner.
+    <br>Use: `GET /api/lists` and `POST /api/lists`.
+ 1. Fix `POST /api/list/:id` endpoint **\[backend\]**
+    <br> There's a bug :beetle: in the API endpoint for updating `List`s in
+    [`app.js`](app.js). Find it and fix it.
+ 1. Create new card in a list **\[frontend\]**
+    <br> Allow users to create new cards in existing lists.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Rename list **\[frontend\]**
+    <br>Allow users to rename existing lists.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Change card contents **\[frontend\]**
+    <br>Allow users to change the contents of cards.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Delete card **\[frontend\]**
+    <br>Allow users to delete single cards.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Move cards **\[frontend\]**
+    <br>Allow users to move cards within and between lists.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Reorder lists **\[frontend\]**
+    <br>Allow users to reorder whole lists. You can use drag-and-drop or buttons.
+    <br>Use: `POST /api/lists/:id`.
+ 1. Implement `DELETE /api/lists/:id` **\[backend\]**
+    <br>Create a new Express endpoint that takes a `DELETE` request and an `id`
+    and deletes a single list.  This endpoint should return `404 Bad Request`
+    if list with `id` can't be found. 
+ 1. Delete list **\[frontend\]**
+    <br>Allow users to delete whole lists.
+    <br>Use: `DELETE /api/lists/:id`.
 
 Legend:
 
@@ -35,7 +58,17 @@ Legend:
 
 ## Submitting
 
-XXX
+ 1. Make sure all your changes are committed to `git`.
+    ```bash
+    $ git status
+    On branch master
+    nothing to commit, working directory clean
+    ```
+ 1. Create a zip archive of your project.
+    ```bash
+    $ git archive master --format zip -o "horizonello-[YOUR NAME].zip"
+    ```
+ 1. Email us `horizonello-[YOUR NAME].zip`.
 
 ## Evaluation
 
